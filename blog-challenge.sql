@@ -40,7 +40,7 @@ SET default_with_oids = false;
 
 CREATE TABLE posts (
     id serial PRIMARY KEY,
-    user_id integer REFERENCES users,
+    user_id integer REFERENCES users ON DELETE CASCADE,
     title text,
     content text,
     date timestamp with time zone NOT NULL
@@ -64,8 +64,8 @@ CREATE TABLE users (
 
 CREATE TABLE comments (
     id serial PRIMARY KEY,
-    user_id integer REFERENCES users,
-    post_id integer REFERENCES posts,
+    user_id integer REFERENCES users ON DELETE RESTRICT,
+    post_id integer REFERENCES posts ON DELETE CASCADE,
     comment text
 );
 
@@ -84,8 +84,8 @@ CREATE TABLE tags (
 
 CREATE TABLE post__tags (
     tag text,
-    tag_id integer REFERENCES tags(id),
-    post_id integer REFERENCES posts(id)
+    tag_id integer REFERENCES tags(id) ON DELETE RESTRICT,
+    post_id integer REFERENCES posts(id) ON DELETE CASCADE
 );
 
 
